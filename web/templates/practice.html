@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}問題を解く — TOEIC Practice{% endblock %}
+{% block nav_practice %}active{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+  <h2 class="text-2xl font-bold mb-6">問題を解く</h2>
+
+  <!-- Part selector -->
+  <div class="card mb-6">
+    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">パートを選択</h3>
+    <div class="flex flex-wrap gap-2" id="partSelector">
+      <button class="part-pill" data-part="1" onclick="selectPart(1)">
+        <span class="section-tag">Listening</span> Part 1 写真描写
+      </button>
+      <button class="part-pill" data-part="2" onclick="selectPart(2)">
+        <span class="section-tag">Listening</span> Part 2 応答
+      </button>
+      <button class="part-pill" data-part="3" onclick="selectPart(3)">
+        <span class="section-tag">Listening</span> Part 3 会話
+      </button>
+      <button class="part-pill" data-part="4" onclick="selectPart(4)">
+        <span class="section-tag">Listening</span> Part 4 説明文
+      </button>
+      <button class="part-pill" data-part="5" onclick="selectPart(5)">
+        <span class="section-tag">Reading</span> Part 5 短文穴埋め
+      </button>
+      <button class="part-pill" data-part="6" onclick="selectPart(6)">
+        <span class="section-tag">Reading</span> Part 6 長文穴埋め
+      </button>
+      <button class="part-pill" data-part="7" onclick="selectPart(7)">
+        <span class="section-tag">Reading</span> Part 7 読解
+      </button>
+    </div>
+  </div>
+
+  <!-- Generate button -->
+  <div class="mb-6 flex items-center gap-3">
+    <button class="btn-primary" id="generateBtn" onclick="generateProblem()" disabled>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      </svg>
+      問題を生成
+    </button>
+    <span id="generateStatus" class="text-sm text-gray-500"></span>
+  </div>
+
+  <!-- Problem area -->
+  <div id="problemArea" class="hidden">
+    <!-- Audio button for listening parts -->
+    <div id="audioSection" class="mb-4 hidden">
+      <button class="audio-btn" id="playAudioBtn" onclick="playAudio()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5.586v12.828a1 1 0 01-1.707.707L5.586 15z"/>
+        </svg>
+        音声を再生
+      </button>
+      <audio id="audioPlayer" class="hidden"></audio>
+    </div>
+
+    <!-- Problem display -->
+    <div id="problemDisplay" class="card mb-6">
+      <!-- Dynamically populated -->
+    </div>
+
+    <!-- Answer area -->
+    <div id="answerArea">
+      <!-- Dynamically populated -->
+    </div>
+
+    <!-- Submit -->
+    <div class="mt-6 flex gap-3" id="submitSection">
+      <button class="btn-success" id="submitBtn" onclick="submitAnswer()" disabled>
+        回答する
+      </button>
+    </div>
+  </div>
+
+  <!-- Result & explanation -->
+  <div id="resultArea" class="hidden mt-6">
+    <div id="resultDisplay" class="card mb-4">
+      <!-- Results -->
+    </div>
+    <div id="explanationDisplay" class="card selectable-text">
+      <!-- Explanation with selectable text for vocab -->
+    </div>
+    <div class="mt-4">
+      <button class="btn-primary" onclick="generateProblem()">次の問題へ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Vocab popup (hidden by default) -->
+<div id="vocabPopup" class="vocab-popup hidden">
+  <div class="flex items-center gap-2">
+    <span id="vocabWord" class="font-semibold"></span>
+    <button class="btn-primary text-xs py-1 px-2" onclick="addToVocab()">単語帳に追加</button>
+    <button class="text-gray-400 hover:text-gray-600 text-xs" onclick="closeVocabPopup()">✕</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/practice.js"></script>
+{% endblock %}

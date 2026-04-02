@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+data/config.json
+data/audio/
+data/problems.json
+data/history.json
+data/vocabulary.json
+.env
+*.mp3

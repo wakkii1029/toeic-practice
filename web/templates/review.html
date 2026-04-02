@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}解きなおし — TOEIC Practice{% endblock %}
+{% block nav_review %}active{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+  <h2 class="text-2xl font-bold mb-6">解きなおし</h2>
+
+  <!-- Filter -->
+  <div class="card mb-6 flex items-center gap-4">
+    <label class="text-sm font-medium text-gray-600">パートで絞り込み:</label>
+    <select id="partFilter" class="input-field" style="width: auto;" onchange="filterWrong()">
+      <option value="all">すべて</option>
+      <option value="1">Part 1</option>
+      <option value="2">Part 2</option>
+      <option value="3">Part 3</option>
+      <option value="4">Part 4</option>
+      <option value="5">Part 5</option>
+      <option value="6">Part 6</option>
+      <option value="7">Part 7</option>
+    </select>
+    <button class="btn-secondary" onclick="loadWrongAnswers()">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+      更新
+    </button>
+  </div>
+
+  <!-- Wrong answers list -->
+  <div id="wrongList">
+    <div class="text-center text-gray-400 py-12">読み込み中...</div>
+  </div>
+
+  <!-- Review problem area (hidden initially) -->
+  <div id="reviewProblemArea" class="hidden mt-6">
+    <div class="card mb-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold" id="reviewTitle"></h3>
+        <button class="btn-secondary text-sm" onclick="closeReview()">一覧に戻る</button>
+      </div>
+      <div id="reviewProblemDisplay"></div>
+    </div>
+    <div id="reviewAnswerArea"></div>
+    <div class="mt-4 flex gap-3">
+      <button class="btn-success" id="reviewSubmitBtn" onclick="submitReview()" disabled>回答する</button>
+    </div>
+    <div id="reviewResultArea" class="hidden mt-4">
+      <div id="reviewResultDisplay" class="card"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/review.js"></script>
+{% endblock %}

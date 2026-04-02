@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}設定 — TOEIC Practice{% endblock %}
+{% block nav_settings %}active{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+  <h2 class="text-2xl font-bold mb-6">設定</h2>
+
+  <div class="card">
+    <!-- Provider -->
+    <div class="mb-6">
+      <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">LLMプロバイダー</h3>
+      <div class="flex gap-3">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" name="provider" value="ollama" class="accent-primary-600" onchange="onProviderChange()" />
+          <span class="font-medium">Ollama（ローカル）</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" name="provider" value="openai" class="accent-primary-600" onchange="onProviderChange()" />
+          <span class="font-medium">OpenAI互換API</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Ollama settings -->
+    <div id="ollamaSettings" class="mb-6 space-y-3">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Ollama URL</label>
+        <input type="text" id="ollamaUrl" class="input-field" value="http://localhost:11434" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">モデル</label>
+        <div class="flex gap-2">
+          <select id="ollamaModel" class="input-field"></select>
+          <button class="btn-secondary whitespace-nowrap" onclick="refreshModels()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            更新
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OpenAI settings -->
+    <div id="openaiSettings" class="mb-6 space-y-3 hidden">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">API Base URL</label>
+        <input type="text" id="openaiUrl" class="input-field" value="https://api.openai.com/v1" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">API Key</label>
+        <input type="password" id="openaiKey" class="input-field" placeholder="sk-..." />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">モデル名</label>
+        <input type="text" id="openaiModel" class="input-field" value="gpt-4o-mini" />
+      </div>
+    </div>
+
+    <!-- TTS settings -->
+    <div class="mb-6 border-t pt-6">
+      <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">音声合成（リスニング）</h3>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">音声</label>
+          <select id="ttsVoice" class="input-field">
+            <option value="en-US-AriaNeural">en-US Aria (Female)</option>
+            <option value="en-US-GuyNeural">en-US Guy (Male)</option>
+            <option value="en-US-JennyNeural">en-US Jenny (Female)</option>
+            <option value="en-GB-SoniaNeural">en-GB Sonia (Female, British)</option>
+            <option value="en-AU-NatashaNeural">en-AU Natasha (Female, Australian)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">速度</label>
+          <select id="ttsRate" class="input-field">
+            <option value="-30%">ゆっくり (-30%)</option>
+            <option value="-20%">やや遅い (-20%)</option>
+            <option value="-10%">少し遅い (-10%)</option>
+            <option value="+0%">標準</option>
+            <option value="+10%">少し速い (+10%)</option>
+            <option value="+20%">速い (+20%)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save -->
+    <div class="flex items-center gap-3">
+      <button class="btn-primary" onclick="saveSettings()">設定を保存</button>
+      <span id="saveStatus" class="text-sm text-green-600 hidden">保存しました</span>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/settings.js"></script>
+{% endblock %}

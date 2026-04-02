@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}単語帳 — TOEIC Practice{% endblock %}
+{% block nav_vocabulary %}active{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+  <h2 class="text-2xl font-bold mb-6">単語帳</h2>
+
+  <!-- Add word manually -->
+  <div class="card mb-6">
+    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">単語を追加</h3>
+    <div class="flex gap-3">
+      <input type="text" id="newWord" class="input-field" placeholder="英単語を入力..." />
+      <input type="text" id="newContext" class="input-field" placeholder="文脈（任意）..." />
+      <button class="btn-primary whitespace-nowrap" onclick="addWordManual()" id="addWordBtn">追加</button>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="flex items-center gap-4 mb-4">
+    <input type="text" id="vocabSearch" class="input-field" style="max-width: 300px;" placeholder="単語を検索..." oninput="filterVocab()" />
+    <label class="flex items-center gap-2 text-sm text-gray-600">
+      <input type="checkbox" id="showMastered" onchange="filterVocab()" checked />
+      習得済みも表示
+    </label>
+    <span id="vocabCount" class="text-sm text-gray-400 ml-auto"></span>
+  </div>
+
+  <!-- Vocabulary list -->
+  <div id="vocabList">
+    <div class="text-center text-gray-400 py-12">読み込み中...</div>
+  </div>
+</div>
+
+<!-- Word detail modal -->
+<div id="wordModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/40" onclick="closeWordModal()"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold" id="modalWordTitle"></h3>
+      <button class="text-gray-400 hover:text-gray-600 text-xl" onclick="closeWordModal()">✕</button>
+    </div>
+    <div id="modalContent"></div>
+    <!-- User notes -->
+    <div class="mt-4 border-t pt-4">
+      <h4 class="text-sm font-semibold text-gray-500 mb-2">自分のメモ</h4>
+      <textarea id="modalNotes" class="input-field" rows="3" placeholder="メモを入力..."></textarea>
+      <div class="mt-2 flex gap-2">
+        <button class="btn-primary text-sm" onclick="saveNotes()">メモを保存</button>
+        <button class="btn-secondary text-sm" onclick="toggleMastered()">
+          <span id="masteredBtnText">習得済みにする</span>
+        </button>
+        <button class="btn-danger text-sm ml-auto" onclick="deleteWordConfirm()">削除</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/vocabulary.js"></script>
+{% endblock %}
