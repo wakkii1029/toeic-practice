@@ -282,3 +282,16 @@ def get_problem_by_id(problem_id: str) -> dict | None:
         if p["id"] == problem_id:
             return p
     return None
+
+
+def delete_problem(problem_id: str) -> bool:
+    problems = _load_json(PROBLEMS_PATH)
+    new_problems = [p for p in problems if p["id"] != problem_id]
+    if len(new_problems) < len(problems):
+        _save_json(PROBLEMS_PATH, new_problems)
+        # Also remove related history
+        history = _load_json(HISTORY_PATH)
+        new_history = [h for h in history if h.get("problem_id") != problem_id]
+        _save_json(HISTORY_PATH, new_history)
+        return True
+    return False

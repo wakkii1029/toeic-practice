@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}問題一覧 — TOEIC Practice{% endblock %}
+{% block nav_problems %}active{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+  <h2 class="text-2xl font-bold mb-6">問題一覧</h2>
+
+  <!-- Filter & stats -->
+  <div class="card mb-6 flex items-center gap-4 flex-wrap">
+    <div class="flex items-center gap-2">
+      <label class="text-sm font-medium text-gray-600">パート:</label>
+      <select id="partFilter" class="input-field" style="width: auto;" onchange="filterProblems()">
+        <option value="all">すべて</option>
+        <option value="1">Part 1 写真描写</option>
+        <option value="2">Part 2 応答</option>
+        <option value="3">Part 3 会話</option>
+        <option value="4">Part 4 説明文</option>
+        <option value="5">Part 5 短文穴埋め</option>
+        <option value="6">Part 6 長文穴埋め</option>
+        <option value="7">Part 7 読解</option>
+      </select>
+    </div>
+    <div class="flex items-center gap-2">
+      <label class="text-sm font-medium text-gray-600">状態:</label>
+      <select id="statusFilter" class="input-field" style="width: auto;" onchange="filterProblems()">
+        <option value="all">すべて</option>
+        <option value="unanswered">未回答</option>
+        <option value="answered">回答済み</option>
+      </select>
+    </div>
+    <span id="problemCount" class="text-sm text-gray-400 ml-auto"></span>
+  </div>
+
+  <!-- Problem list -->
+  <div id="problemList">
+    <div class="text-center text-gray-400 py-12">読み込み中...</div>
+  </div>
+</div>
+
+<!-- Detail modal -->
+<div id="detailModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/40" onclick="closeDetail()"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[80vh] overflow-y-auto p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold" id="detailTitle"></h3>
+      <button class="text-gray-400 hover:text-gray-600 text-xl" onclick="closeDetail()">✕</button>
+    </div>
+    <div id="detailContent" class="mb-4"></div>
+    <div class="flex items-center gap-3 border-t pt-4">
+      <a id="detailPracticeLink" href="#" class="btn-primary">この問題を解く</a>
+      <button class="btn-danger ml-auto" onclick="deleteProblem()">この問題を削除</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/problems.js"></script>
+{% endblock %}

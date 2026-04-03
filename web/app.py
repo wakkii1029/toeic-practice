@@ -15,7 +15,7 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from web.routers import practice, review, vocabulary, settings as settings_router
+from web.routers import practice, review, vocabulary, problems, settings as settings_router
 
 WEB_DIR = Path(__file__).resolve().parent
 AUDIO_DIR = ROOT / "data" / "audio"
@@ -36,6 +36,7 @@ templates = Jinja2Templates(directory=str(WEB_DIR / "templates"))
 app.include_router(practice.router)
 app.include_router(review.router)
 app.include_router(vocabulary.router)
+app.include_router(problems.router)
 app.include_router(settings_router.router)
 
 
